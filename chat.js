@@ -3,6 +3,11 @@ let server = net.createServer()
 let counter = 0;
 let sockets = {}
 
+let timestamp = () => {
+    let date = new Date()
+    return `${date.getHours()}:${date.getMinutes()}`
+}
+
 server.on('connection', (socket) => {
     socket.id = counter++;
     console.log(`Client ${socket.id} is connected`);
@@ -15,7 +20,7 @@ server.on('connection', (socket) => {
             return
         }
         Object.entries(sockets).filter(([id,]) => id != socket.id).forEach(([, sc]) => {
-            sc.write(`${socket.name} : ${data}`)
+            sc.write(`${socket.name} ${timestamp()} : ${data}`)
         })
     })
 
